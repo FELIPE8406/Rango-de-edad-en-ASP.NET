@@ -1,0 +1,84 @@
+//RANGO DE EDAD EN ASP.NET
+
+//MODEL	
+	public string str_Age_minimun { get; set; }
+        [MaxLength(10)]
+        [Required(ErrorMessage = "Campo obligatorio")]
+        public string str_AgeMaximun { get; set; }
+        [MaxLength(100)]
+        [Display(Name = "*Formación")]
+        [Required(ErrorMessage = "Campo obligatorio")]
+
+
+//CSHTML
+						<div class="form-group">
+                                                        @Html.LabelFor(model => model.str_Age_minimun, htmlAttributes: new { @class = "control-label col-md-12" })
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                @Html.EditorFor(model => model.str_Age_minimun, new { htmlAttributes = new { @Value = "18", @onkeyup = "ValidAgeMin(this);", @class = "form-control  col-md-5  ml-3 mr-4" } })
+                                                                @Html.ValidationMessageFor(model => model.str_Age_minimun, "", new { @class = "text-danger" })
+                                                                
+                                                             
+                                                                @Html.EditorFor(model => model.str_AgeMaximun, new { htmlAttributes = new {@onkeyup = "ValidAgeMax(this);", @class = "form-control  col-md-5 ml-4", placeholder = "Max" } })
+
+
+                                                                </div>
+                                                                <label id="errorEdad" style="color:red; display: none;">La edad máxima no puede ser menor a la mínima </label>
+                                                                @Html.ValidationMessageFor(model => model.str_AgeMaximun, "", new { @class = "text-danger" })                                                             
+                                                          </div>
+                                                    </div>
+
+
+
+//Función JavaScript
+
+document.getElementById("str_Age_minimun").value = "18";
+
+
+function ValidAgeMin(input)
+            {
+                var Min = input.value;
+                var  Max=$("#str_AgeMaximun").val()
+                if (Min.length > 1)
+                {
+                    if (Min >= 18) {
+                        if (Min >= Max) { 
+                        document.getElementById('errorEdad').style.display = 'initial';
+                            input.value = "";
+                        }
+                        else {
+                            input.value = Min;
+                            document.getElementById('errorEdad').style.display = 'none';
+                        }
+                    }
+                    else
+                    {
+                        input.value = 18;
+                    }
+                }
+
+
+            }
+             function ValidAgeMax(input)
+            {
+                var Max = input.value;
+                var  Min=$("#str_Age_minimun").val()
+                if (Max.length > 1)
+                {
+                    if (Max >= 18) {
+                        if (Min >= Max) { 
+                        document.getElementById('errorEdad').style.display = 'initial';
+                            input.value = "";
+                        }
+                        else {
+                            input.value = Max;
+                            document.getElementById('errorEdad').style.display = 'none';
+                        }
+                    }
+                    else
+                    {
+                        input.value = 18;
+                    }
+                }
+
+            }
